@@ -1,0 +1,26 @@
+{
+  "name": "Angry Birds Snap",
+  "version": "1",
+  "manifest_version": 2,
+  "content_scripts": [
+    {
+      "matches": ["http://chrome.angrybirds.com/"],
+      "js": ["jquery-1.7.2.min.js", "script.js"]
+    }
+  ],
+    "background": {
+    "scripts": ["jquery-1.7.2.min.js", "geom.js", "linkedList.js", "vision.js", "stateExtractor.js", "agent.js", "trajectory.js","background.js"]
+  },
+  "browser_action": {
+          "default_icon": {                  
+            "19": "images/icon.png"      
+          },
+          "default_title": "Angry Birds SNAP! Extension",    
+          "default_popup": "popup.html"       
+        },
+		
+		
+  "externally_connectable": {
+    "matches": ["*://localhost/*"]
+  }
+}

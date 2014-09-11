@@ -1,0 +1,15 @@
+gui 
+    remove 'small stage' and 'app mode' button
+	comment out line 482-546
+	comment out line 709-718
+
+
+objects
+    add AIBirds category
+	add line 157
+    remove motion, sounds and pen categories
+	comment out line 158, 162, 164, 172, 174, 175
+
+    remove sprite bar
+
+    add reportABCmd at line 777,1715,4373
