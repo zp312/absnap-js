@@ -372,6 +372,7 @@ function cropBoundingBox(r, width, height) {
 				add: function(x,y){
 					if(x < this.x){
 						this.x = x;
+						this.width += this.x - x; 
 					}
 				
 					else if(x > this.x + this.width){
@@ -380,6 +381,7 @@ function cropBoundingBox(r, width, height) {
 				
 					if(y < this.y){
 						this.y = y;
+						this.height += this.y - y;
 					}
 					
 					else if(y > this.y + this.height){
@@ -400,6 +402,7 @@ function cropBoundingBox(r, width, height) {
 				
 					if(xRect < this.x){
 						this.x = xRect;
+						this.width += this.x - xRect;
 					}
 				
 					if(xRect + widthRect > this.x + this.width){
@@ -408,6 +411,7 @@ function cropBoundingBox(r, width, height) {
 				
 					if(yRect < this.y){
 						this.y = yRect;
+						this.height += this.y - yRect;
 					}
 					
 					if(yRect + heightRect > this.y + this.height){

@@ -42,7 +42,7 @@ function Vision(colour, width, height){
 
 	// find bounding boxes and segment colours
 	this.boxes = this.findBoundingBoxes();
-	console.log('box 376 ' + this.boxes[376]);
+	//console.log(boxes);
 	console.log('scene built completed');
 
 }
@@ -76,14 +76,16 @@ Vision.prototype.findPigs = function() {
 			ignorePixel[i][j] = false;
 		}
 	}
-
+	
 	for (var n = 0; n < this.nSegments; n++) {
 		if ((this.colours[n] != 376) || ignorePixel[n])
 			continue;
-
+		console.log(this.boxes[n]);		
 		// dilate bounding box of colour 376
 		var bounds = dialateRectangle(this.boxes[n],
 				this.boxes[n].width / 2 + 1, this.boxes[n].height / 2 + 1);
+		console.log('break 2');		
+		
 		var obj = this.boxes[n];
 
 		// look for overlapping bounding boxes of colour 376
@@ -93,6 +95,7 @@ Vision.prototype.findPigs = function() {
 			var bounds2 = dialateRectangle(
 					this.boxes[m], this.boxes[m].width / 2 + 1,
 					this.boxes[m].height / 2 + 1);
+			console.log('break 3');
 			if (bounds.intersects(bounds2)) {
 				bounds.add(bounds2);
 				obj.addRect(this.boxes[m]);
@@ -115,7 +118,9 @@ Vision.prototype.findPigs = function() {
 		if (bValidObject) {
 			obj = dialateRectangle(obj, obj.width / 2 + 1,
 					obj.height / 2 + 1);
+			console.log('break 4');
 			obj = cropBoundingBox(obj, this.width, this.height);
+			console.log('break 5');
 			objects.add(obj);
 		}
 	}
