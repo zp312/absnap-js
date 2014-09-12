@@ -95,7 +95,7 @@ Vision.prototype.findPigs = function() {
 					this.boxes[m].height / 2 + 1);
 			if (bounds.intersects(bounds2)) {
 				bounds.add(bounds2);
-				obj.add(this.boxes[m]);
+				obj.addRect(this.boxes[m]);
 				ignorePixel[m] = true;
 			}
 		}
