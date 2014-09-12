@@ -27,11 +27,13 @@ function liveGame(){
 		var stoneObjs = vision.findStones();
 		var iceObjs = vision.findIce();
 		var sling = vision.findSlingshotMBR();
+		var pigs = vision.findPigs();
 		console.log('popup.js: found sling shot: ' + sling);
 		drawMBRs(woodObjs, 'yellow');
 		drawMBRs(stoneObjs, 'white');
 		drawMBRs(iceObjs, 'blue');
 		drawMBR(sling, 'brown');
+		drawMBR(pigs, 'green');
 	};
 	var i = 0;
 

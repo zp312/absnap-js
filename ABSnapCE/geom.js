@@ -114,6 +114,27 @@ function Rectangle( x, y,width,height) {
 				this.height = height;
 		}
 };
+
+
+function dialateRectangle(rect, dx, dy) {
+	return new Rectangle(rect.x - dx, rect.y - dy, rect.width + 2 * dx, rect.height + 2 * dy);
+};
+				
+				
+// crops a bounding box to be within an image of size width-by-height				
+function cropBoundingBox(r, width, height) {
+		if (r.x < 0)
+			r.x = 0;
+		if (r.y < 0)
+			r.y = 0;
+		if ((r.x + r.width) > width)
+			r.width = width - r.x;
+		if ((r.y + r.height) > height)
+			r.height = height - r.y;
+
+		return r;
+	}				
+
 /**
  * Prototype of BB.Geom.Rectangle
  */
@@ -133,15 +154,15 @@ function Rectangle( x, y,width,height) {
                         return this.width;
                 },
                 /**
-                 * Get the x coordinant of the rectangle
-                 * @returns The x coordinant of the rectangle
+                 * Get the x coordinate of the rectangle
+                 * @returns The x coordinate of the rectangle
                  */
                 getX: function () {
                         return this.x;
                 },
                 /**
-                 * Get the y coordinant of the rectangle
-                 * @returns The y coordinant of the rectangle
+                 * Get the y coordinate of the rectangle
+                 * @returns The y coordinate of the rectangle
                  */
                 getY: function () {
                         return this.y;
@@ -157,8 +178,8 @@ function Rectangle( x, y,width,height) {
                         };
                 },
                 /**
-                 * Get the X Y coordinants of the rectangle
-                 * @returns Object literal containing the X and Y coordinants of the rectangle
+                 * Get the X Y coordinates of the rectangle
+                 * @returns Object literal containing the X and Y coordinates of the rectangle
                  */
                 getLocation: function () {
                         return {
@@ -197,7 +218,7 @@ function Rectangle( x, y,width,height) {
                 /**
                  * Set the x cooridnant of the rectangle
                  * @param {Number} x Number value to set as the x cooridnant of the rectangle
-                 * @returns True when the x coordinant is set false when an error is encountered
+                 * @returns True when the x coordinate is set false when an error is encountered
                  */
                 setX: function (x) {
                         if (!isNaN(x) && typeof x === 'number' && x >= 0 && x !== Infinity) {
@@ -211,7 +232,7 @@ function Rectangle( x, y,width,height) {
                 /**
                  * Set the y cooridnant of the rectangle
                  * @param {Number} y Number value to set as the y cooridnant of the rectangle
-                 * @returns True when the y coordinant is set false when an error is encountered
+                 * @returns True when the y coordinate is set false when an error is encountered
                  */
                 setY: function (y) {
                         if (!isNaN(y) && typeof y === 'number' && y >= 0 && y !== Infinity) {
@@ -262,9 +283,9 @@ function Rectangle( x, y,width,height) {
                 },
 				
                 /**
-                 * Set the X and Y coordinants of the rectangle
-                 * @param {Number} x X coordinant to set for the rectangle
-                 * @param {Number} y Y coordinant to set for the rectangle
+                 * Set the X and Y coordinates of the rectangle
+                 * @param {Number} x X coordinate to set for the rectangle
+                 * @param {Number} y Y coordinate to set for the rectangle
                  * @returns True if the location has been set for the rectangle and false if an error condition was met
                  */
                 setLocation: function (x, y) {
@@ -279,7 +300,7 @@ function Rectangle( x, y,width,height) {
                 },
                 /**
                  * Get the center point of the rectangle
-                 * @returns Object literal with x & y properties containing the coordinants of the center point of the rectangle
+                 * @returns Object literal with x & y properties containing the coordinates of the center point of the rectangle
                  */
                 getCenter: function () {
                         return {
@@ -288,11 +309,11 @@ function Rectangle( x, y,width,height) {
                         };
                 },
                 /**
-                 * Determine if a given set of coordinants fall withing the rectangle
-                 * @param {Number} x X coordinant
+                 * Determine if a given set of coordinates fall withing the rectangle
+                 * @param {Number} x X coordinate
                  * @param {Object} x Object literal with x and y
-                 * @param {Number} y Y coordinant
-                 * @returns True if coordinants fall within rectangle and false if they fall outside of the rectangle
+                 * @param {Number} y Y coordinate
+                 * @returns True if coordinates fall within rectangle and false if they fall outside of the rectangle
                  */
                 contains: function (x, y) {
                         if (x.x && x.y) { /* Accept JSON */
@@ -307,9 +328,9 @@ function Rectangle( x, y,width,height) {
                         }
                 },
                 /**
-                 * Determine if a given X coordinant falls within the rectangle
-                 * @param {Number} x X coordinant
-                 * @returns True if coordinants fall within rectangle and false if they fall outside of the rectangle
+                 * Determine if a given X coordinate falls within the rectangle
+                 * @param {Number} x X coordinate
+                 * @returns True if coordinates fall within rectangle and false if they fall outside of the rectangle
                  */
                 containsX: function (x) {
                         if (x < this.x || x > this.x + this.width) {
@@ -320,9 +341,9 @@ function Rectangle( x, y,width,height) {
                         }
                 },
                 /**
-                 * Determine if a given Y coordinant falls within the rectangle
-                 * @param {Number} y Y coordinant
-                 * @returns True if coordinants fall within rectangle and false if they fall outside of the rectangle
+                 * Determine if a given Y coordinate falls within the rectangle
+                 * @param {Number} y Y coordinate
+                 * @returns True if coordinates fall within rectangle and false if they fall outside of the rectangle
                  */
                 containsY: function (y) {
                         if (y < this.y || y > this.y + this.height) {
@@ -393,6 +414,23 @@ function Rectangle( x, y,width,height) {
 						this.height = yRect + heightRect - Math.min(this.y, yRect);
 					}
 					
+					
+				},
+				
+				/**ADDED function
+				 * Tests if the given rectangle intersects with this rectangle
+				 */
+				interests: function(rect){
+					var x = rect.x;
+					var y = rect.y;
+					var width = rect.width;
+					var height = rect.height;
+
+					if(this.contains(x,y) || this.contains(x + width, y) ||this.contains(x + width, y) ||this.contains(x + width, y + height))
+						return true;
+							
+					else 
+						return false;
 					
 				},
 				

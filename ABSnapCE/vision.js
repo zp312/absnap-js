@@ -41,17 +41,17 @@ function Vision(colour, width, height){
 	}
 
 	// find bounding boxes and segment colours
-	this.boxes = VisionUtils.findBoundingBoxes();
-
+	this.boxes = this.findBoundingBoxes();
+	console.log('box 376 ' + this.boxes[376]);
 	console.log('scene built completed');
 
 }
 
 // returns bounding boxes for all connected components
-Vision.prototype.findBoundingBoxes() {
+Vision.prototype.findBoundingBoxes = function(){
 	var boxes = new Array();
-	for (int y = 0; y < this.segments.length; y++) {
-		for (int x = 0; x < this.segments.length; x++) {
+	for (var y = 0; y < this.segments.length; y++) {
+		for (var x = 0; x < this.segments.length; x++) {
 			var n = this.segments[y][x];
 			if (n < 0)
 				continue;
@@ -66,7 +66,7 @@ Vision.prototype.findBoundingBoxes() {
 }
 
 // find pigs in the current scene
-Vision.prototype.findPigs() {
+Vision.prototype.findPigs = function() {
 	var objects = new LinkedList();
 	var ignorePixel = new Array();
 
@@ -78,25 +78,25 @@ Vision.prototype.findPigs() {
 	}
 
 	for (var n = 0; n < this.nSegments; n++) {
-		if ((this.colours[n] != 376) || ignore[n])
+		if ((this.colours[n] != 376) || ignorePixel[n])
 			continue;
 
 		// dilate bounding box of colour 376
-		var bounds = VisionUtils.dialateRectangle(this.boxes[n],
+		var bounds = dialateRectangle(this.boxes[n],
 				this.boxes[n].width / 2 + 1, this.boxes[n].height / 2 + 1);
 		var obj = this.boxes[n];
 
 		// look for overlapping bounding boxes of colour 376
-		for (int m = n + 1; m < this.nSegments; m++) {
+		for (var m = n + 1; m < this.nSegments; m++) {
 			if (this.colours[m] != 376)
 				continue;
-			var bounds2 = VisionUtils.dialateRectangle(
+			var bounds2 = dialateRectangle(
 					this.boxes[m], this.boxes[m].width / 2 + 1,
 					this.boxes[m].height / 2 + 1);
 			if (bounds.intersects(bounds2)) {
 				bounds.add(bounds2);
 				obj.add(this.boxes[m]);
-				ignore[m] = true;
+				ignorePixel[m] = true;
 			}
 		}
 
@@ -113,9 +113,9 @@ Vision.prototype.findPigs() {
 
 		// add object if valid
 		if (bValidObject) {
-			obj = VisionUtils.dialateRectangle(obj, obj.width / 2 + 1,
+			obj = dialateRectangle(obj, obj.width / 2 + 1,
 					obj.height / 2 + 1);
-			obj = VisionUtils.cropBoundingBox(obj, _nWidth, _nHeight);
+			obj = cropBoundingBox(obj, this.width, this.height);
 			objects.add(obj);
 		}
 	}
